@@ -88,6 +88,18 @@ router.put('/:id', (req, res) => {
 
 })
 
+router.get('/:id/posts', (req, res) => {
+    const userId = req.params.id;
+
+    db.getUserPosts(userId)
+    .then(posts => {
+        res.status(200).send(posts)
+    })
+    .catch(err => {
+        res.status(400).json({message: err})
+    })
+})
+
 
 
 module.exports = router;
