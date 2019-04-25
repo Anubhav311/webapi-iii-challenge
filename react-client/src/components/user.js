@@ -13,7 +13,7 @@ class User extends React.Component {
         console.log(this.props.match)
         const id = this.props.match.params.id
         axios
-        .get(`http://localhost:4000/api/users/${id}`)
+        .get(`https://users-posts-app.herokuapp.com/api/users/${id}`)
         .then(res => {
           this.setState({
             user: res.data
@@ -25,11 +25,19 @@ class User extends React.Component {
         })
     }
 
+    changeHandler = (e) => {
+      e.preventDefault()
+      this.setState({
+          [e.target.name]: e.target.value
+      })
+      console.log(this.state)
+    }
 
     fetchPosts = () => {
         const id = this.props.match.params.id
+        console.log(id)
         axios
-        .get(`http://localhost:4000/api/users/${id}/posts`)
+        .get(`https://users-posts-app.herokuapp.com/api/users/${id}/posts`)
         .then(res => {
           console.log(res)
           this.setState({
@@ -44,16 +52,16 @@ class User extends React.Component {
     addPost = (e) => {
         e.preventDefault()
         axios
-          .post(`http://localhost:4000/api/posts`, {name: this.state.text})
+          .post(`https://users-posts-app.herokuapp.com/api/posts`, {text: this.state.text, user_id: this.props.match.params.id})
           .then(res => {
             console.log(res)
             this.fetchPosts();
           })
           .catch(err => {
             console.log(err)
-          })
+          });
         this.setState({
-          name: ''
+          text: '',
         })
       }
 
@@ -62,7 +70,7 @@ class User extends React.Component {
         console.log(e.target.id)
     
         axios
-          .delete(`http://localhost:4000/api/posts/${e.target.id}`)
+          .delete(`https://users-posts-app.herokuapp.com/api/posts/${e.target.id}`)
           .then(res => {
             console.log(res)
             this.fetchPosts();
@@ -70,6 +78,21 @@ class User extends React.Component {
           .catch(err => {
             console.log(err)
             this.getData();
+          })
+      }
+
+      updatePost = (e) => {
+        e.preventDefault();
+        console.log(e.target.id)
+        axios
+          .put(`https://users-posts-app.herokuapp.com/api/posts/${e.target.id}`, {text: this.state.text})
+          .then(res => {
+            console.log(res)
+            this.fetchPosts()
+          })
+          .catch(err => console.log(err))
+          this.setState({
+            text: ''
           })
       }
 
@@ -92,7 +115,7 @@ class User extends React.Component {
                 {this.state.posts.map(post => (
                 <div>
                    <h2>{post.text}</h2> 
-                   <button onClick={this.addPost} id={post.id}>Add Post</button>
+                   <button onClick={this.updatePost} id={post.id}>Update Post</button>
                    <button onClick={this.deletePost} id={post.id}>Delete Post</button>
                </div>
                 ))}

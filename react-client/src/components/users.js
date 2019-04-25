@@ -10,7 +10,7 @@ class Users extends React.Component {
 
     componentDidMount() {
         axios
-          .get('http://localhost:4000/api/users')
+          .get('https://users-posts-app.herokuapp.com/api/users')
           .then(res => {
             this.setState({
               users: res.data
@@ -31,7 +31,7 @@ class Users extends React.Component {
     
       getData = () => {
         axios
-          .get('http://localhost:4000/api/users')
+          .get('https://users-posts-app.herokuapp.com/api/users')
           .then(res => {
             console.log(res)
             this.setState({
@@ -46,7 +46,7 @@ class Users extends React.Component {
       addPost = (e) => {
         e.preventDefault()
         axios
-          .post(`http://localhost:4000/api/users`, {name: this.state.name})
+          .post(`https://users-posts-app.herokuapp.com/api/users`, {name: this.state.name})
           .then(res => {
             console.log(res)
             this.getData();
@@ -64,7 +64,7 @@ class Users extends React.Component {
         console.log(e.target.id)
     
         axios
-          .delete(`http://localhost:4000/api/users/${e.target.id}`)
+          .delete(`https://users-posts-app.herokuapp.com/api/users/${e.target.id}`)
           .then(res => {
             console.log(res)
             this.getData();
@@ -79,7 +79,7 @@ class Users extends React.Component {
         e.preventDefault();
         console.log(e.target.id)
         axios
-          .put(`http://localhost:4000/api/users/${e.target.id}`, {name: this.state.name})
+          .put(`https://users-posts-app.herokuapp.com/api/users/${e.target.id}`, {name: this.state.name})
           .then(res => {
             console.log(res)
             this.getData()
