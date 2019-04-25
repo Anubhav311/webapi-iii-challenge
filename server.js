@@ -1,6 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-
+const cors = require('cors');
 
 const userRouter = require('./user-router');
 const postRouter = require('./post-router');
@@ -20,6 +20,7 @@ function caseConverter(req, res, next) {
 }
 
 server.use(express.json());
+server.use(cors())
 server.use(morgan('dev'));
 
 
